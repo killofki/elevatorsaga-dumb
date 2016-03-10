@@ -1,17 +1,17 @@
 {
-		waitUntilFull: false,
-		stopWhenAvailable: false,
+    waitUntilFull: false,
+    stopWhenAvailable: false,
     init: function(elevators, floors) {
-				waitUntilFull = this.waitUntilFull;
-				console.log(elevators);
-				for(i=0;i<elevators.length;i++)
-					elevators[i].index = i;
+        waitUntilFull = this.waitUntilFull;
+        console.log(elevators);
+        for(i=0;i<elevators.length;i++)
+            elevators[i].index = i;
         _.each(elevators, function(elevator) {
             elevator.floorsToUp = [];
             elevator.floorsToDown = [];
             elevator.floorsToStop = [];
 
-						elevator.move = function() {
+            elevator.move = function() {
                 var minFloor = floors.length+1;
                 var maxFloor = -1;
                 for(i=floors.length;i--;) {
@@ -23,46 +23,46 @@
                     }
                 }
 
-								if(waitUntilFull) {
-									if((elevator.currentFloor() == 0 && elevator.loadFactor() < 0.7) || (elevator.currentFloor() != 0 && elevator.loadFactor() == 0)) {
-										elevator.status = 'waiting';
-										clearTimeout(elevator.timer);
-										elevator.timer = setTimeout(function() {
-												elevator.move();
-										}, 1000);
-										return;
-									}
-									else
-											elevator.status = null;
-								}
-								else
-										elevator.status = null;
+                if(waitUntilFull) {
+                  if((elevator.currentFloor() == 0 && elevator.loadFactor() < 0.7) || (elevator.currentFloor() != 0 && elevator.loadFactor() == 0)) {
+                    elevator.status = 'waiting';
+                    clearTimeout(elevator.timer);
+                    elevator.timer = setTimeout(function() {
+                        elevator.move();
+                    }, 1000);
+                    return;
+                  }
+                  else
+                      elevator.status = null;
+                }
+                else
+                    elevator.status = null;
 
-								var stopFloor = -1;
+                var stopFloor = -1;
                 if(elevator.goingUpIndicator()) {
-										elevator.destinationQueue.pop();
-										console.log('EV'+elevator.index+': Go to ' + maxFloor + ' (maximum)');
-										elevator.destinationQueue.push(maxFloor);
+                    elevator.destinationQueue.pop();
+                    console.log('EV'+elevator.index+': Go to ' + maxFloor + ' (maximum)');
+                    elevator.destinationQueue.push(maxFloor);
                 }
                 else if(elevator.goingDownIndicator()) {
-										elevator.destinationQueue.pop();
-										console.log('EV'+elevator.index+': Go to ' + minFloor + ' (minimum)');
-										elevator.destinationQueue.push(minFloor);
+                    elevator.destinationQueue.pop();
+                    console.log('EV'+elevator.index+': Go to ' + minFloor + ' (minimum)');
+                    elevator.destinationQueue.push(minFloor);
                 }
                 else {
                     console.log(elevator);
                 }
 
                 elevator.checkDestinationQueue();
-						};
+            };
 
             elevator.on("floor_button_pressed", function(floorNum) {
                 elevator.floorsToStop[floorNum] = true;
-								elevator.move();
+                elevator.move();
             });
 
             elevator.on("idle", function() {
-								console.log('Elevator idle (' + elevator.maxPassengerCount() + ')');
+                console.log('Elevator idle (' + elevator.maxPassengerCount() + ')');
                 elevator.goingUpIndicator(false);
                 elevator.goingDownIndicator(false);
 
@@ -142,46 +142,46 @@
             elevator.on("passing_floor", function(floorNum, direction){
                 if(direction=='up' && elevator.floorsToUp[floorNum]) {
                     if(elevator.loadFactor() < 0.5) {
-												console.log('EV'+elevator.index+': Stop at ' + floorNum + ' (waiting passenger)');
-												elevator.destinationQueue.unshift(floorNum);
-										}
+                        console.log('EV'+elevator.index+': Stop at ' + floorNum + ' (waiting passenger)');
+                        elevator.destinationQueue.unshift(floorNum);
+                    }
                     else {
                         findBestElevator(floorNum, 'up');
-												elevator.floorsToUp[floorNum] = false;
-										}
+                        elevator.floorsToUp[floorNum] = false;
+                    }
                 }
                 else if(direction=='down' && elevator.floorsToDown[floorNum]) {
                     if(elevator.loadFactor() < 0.5) {
-												console.log('EV'+elevator.index+': Stop at ' + floorNum + ' (waiting passenger)');
-												elevator.destinationQueue.unshift(floorNum);
-										}
+                        console.log('EV'+elevator.index+': Stop at ' + floorNum + ' (waiting passenger)');
+                        elevator.destinationQueue.unshift(floorNum);
+                    }
                     else {
                         findBestElevator(floorNum, 'down');
-												elevator.floorsToDown[floorNum] = false;
-										}
+                        elevator.floorsToDown[floorNum] = false;
+                    }
                 }
                 else if(elevator.floorsToStop[floorNum]) {
-										console.log('EV'+elevator.index+': Stop at ' + floorNum + ' (button pressed)');
-										elevator.destinationQueue.unshift(floorNum);
+                    console.log('EV'+elevator.index+': Stop at ' + floorNum + ' (button pressed)');
+                    elevator.destinationQueue.unshift(floorNum);
                 }
-								elevator.checkDestinationQueue();
+                elevator.checkDestinationQueue();
             });
         });
 
         var findBestElevator = function(floor, direction) {
             var bestElevator = -1;
             var bestElevatorByDistance = -1;
-						var bestElevatorByCapacity = -1;
-						var bestCapacity = -1;
+            var bestElevatorByCapacity = -1;
+            var bestCapacity = -1;
             var bestDistance = floors.length*3;
             for(i=elevators.length;i--;) {
                 elevator = elevators[i];
                 sameDirection = (direction=='up' && elevator.goingUpIndicator()) || (direction=='down' && elevator.goingDownIndicator());
-								neededDirection = (elevator.currentFloor() < floor.level?'up':'down') == direction;
+                neededDirection = (elevator.currentFloor() < floor.level?'up':'down') == direction;
                 if(neededDirection && sameDirection && bestCapacity < elevator.maxPassengerCount()) {
                     if(elevator.floorsToStop.slice(elevator.currentFloor(), floor.level).indexOf(true) != -1) {
                         bestElevator = i;
-												bestCapacity = elevator.maxPassengerCount();
+                        bestCapacity = elevator.maxPassengerCount();
                     }
                 }
                 if(!sameDirection) {
@@ -204,7 +204,7 @@
                     elevators[bestElevator].floorsToUp[floor.level]=true;
                 else
                     elevators[bestElevator].floorsToDown[floor.level]=true;
-								elevators[bestElevator].move();
+                elevators[bestElevator].move();
                 console.log('EV'+elevator.index+': will go to floor ' + floor.level +' (on the road/'+direction+')');
                 return;
             }
@@ -213,7 +213,7 @@
                     elevators[bestElevatorByDistance].floorsToUp[floor.level]=true;
                 else
                     elevators[bestElevatorByDistance].floorsToDown[floor.level]=true;
-								elevators[bestElevatorByDistance].move();
+                elevators[bestElevatorByDistance].move();
                 console.log('EV'+elevator.index+': will go to floor ' + floor.level +' (best selection by distance/'+direction+')');
             }
         };
