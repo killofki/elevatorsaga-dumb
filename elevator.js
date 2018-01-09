@@ -7,7 +7,7 @@
 		for( i = 0; i < elevators .length; i++ ) { 
 			elevators[i] .index = i; 
 			} 
-		_ .each(elevators, function(elevator) {
+		_ .each( elevators, elevator => {
 			elevator .floorsToUp = [];
 			elevator .floorsToDown = [];
 			elevator .floorsToStop = [];
