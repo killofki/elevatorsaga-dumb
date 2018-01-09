@@ -19,11 +19,8 @@
 					  minFloor = floors .length + 1 
 					, maxFloor = -1 
 					; 
-				var 
-					floorsToX = v => elevator [ `floorsTo${ v }` ][ i ] 
-					; 
 				for ( i = floors .length; i--; ) { 
-					if ( [ 'Stop', 'Up', 'Down' ] .some( floorsToX ) ) { 
+					if ( [ 'Stop', 'Up', 'Down' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) ) { 
 						maxFloor = maxFloor < i ? i : maxFloor; 
 						minFloor = minFloor > i ? i : minFloor; 
 						} 
@@ -87,8 +84,8 @@
 						upQueue[ 0 ] .push( i ); 
 						} 
 					if ( 
-								( elevator .floorsToDown[ i ] || elevator .floorsToUp[ i ] ) 
-							&& minFloor > i
+								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
+							&& minFloor > i 
 							) { 
 						minFloor = i; 
 						} 
@@ -101,7 +98,7 @@
 						upQueue[ 1 ] .push( i ); 
 						} 
 					if ( 
-								( elevator .floorsToDown[ i ] || elevator .floorsToUp[ i ] ) 
+								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
 							&& maxFloor < i 
 							) { 
 						maxFloor = i;
@@ -136,11 +133,7 @@
 				else { 
 					if( elevator .goingUpIndicator() ) { 
 						for( i = elevator .currentFloor(); ++i < floors .length; ) { 
-							if( 
-										elevator .floorsToUp[ i ] 
-									|| elevator .floorsToDown[ i ] 
-									|| elevator .floorsToStop[ i ] 
-									) {
+							if( [ 'Up', 'Down', 'Stop' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) ) { 
 								needToMoveMore = true; 
 								} 
 							} 
@@ -151,12 +144,8 @@
 						} 
 					else if( elevator .goingDownIndicator() ) { 
 						for( i = elevator .currentFloor(); i--; ) { 
-							if ( 
-										elevator .floorsToUp[ i ] 
-									|| elevator .floorsToDown[ i ] 
-									|| elevator .floorsToStop[ i ] 
-									) {
-								needToMoveMore = true;
+							if ( [ 'Up', 'Down', 'Stop' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) ) { 
+								needToMoveMore = true; 
 								} 
 							} 
 						if( ! needToMoveMore ) { 
