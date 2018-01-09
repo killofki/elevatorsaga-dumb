@@ -43,17 +43,17 @@
 				else { 
 					elevator .status = null; 
 					} 
-				var stopFloor = -1;
+				var stopFloor = -1; 
 				if ( elevator .goingUpIndicator() ) { 
 					elevator .destinationQueue .pop(); 
 					console .log( `EV${ elevator .index }: Go to ${ maxFloor } (maximum)` ); 
 					elevator .destinationQueue .push( maxFloor ); 
-					}
+					} 
 				else if( elevator .goingDownIndicator() ) { 
 					elevator .destinationQueue .pop(); 
 					console .log( `EV${ elevator .index }: Go to ${ minFloor } (minimum)` ); 
 					elevator .destinationQueue .push( minFloor ); 
-					}
+					} 
 				else { 
 					console .log( elevator ); 
 					} 
