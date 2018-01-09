@@ -5,7 +5,7 @@
 		waitUntilFull = this .waitUntilFull;
 		console .log( elevators );
 		for( i = 0; i < elevators .length; i++ ) { 
-			elevators[i] .index = i; 
+			elevators[ i ] .index = i; 
 			} 
 		_ .each( elevators, elevator => {
 			elevator .floorsToUp = [];
@@ -74,7 +74,7 @@
 				
 				var 
 					  upQueue = [ [], [] ] 
-					, downQueue = [[],[]] 
+					, downQueue = [ [], [] ] 
 					, minFloor = floors .length + 1 
 					, maxFloor = -1 
 					; 
