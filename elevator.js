@@ -42,29 +42,26 @@
 							} ); 
 						return; 
 						} 
-					else { 
-						elevator .status = null; 
-						} 
 					} 
-				else { 
-					elevator .status = null; 
-					} 
+				
+				elevator .status = null; 
 				var stopFloor = -1; 
-				if ( elevator .goingUpIndicator() ) { 
+				[ 
+					  [ 'Up', 'maxinum', maxFloor ]
+					, [ 'Down', 'minimum', minFloor ] 
+					] 
+				.some( ( [ v, t, f ] ) => { 
+					if ( ! elevator[ `going${ v }Indicator` ]() ) 
+						{ return; } 
 					elevator .destinationQueue .pop(); 
-					console .log( `EV${ elevator .index }: Go to ${ maxFloor } (maximum)` ); 
-					elevator .destinationQueue .push( maxFloor ); 
-					} 
-				else if( elevator .goingDownIndicator() ) { 
-					elevator .destinationQueue .pop(); 
-					console .log( `EV${ elevator .index }: Go to ${ minFloor } (minimum)` ); 
-					elevator .destinationQueue .push( minFloor ); 
-					} 
-				else { 
-					console .log( elevator ); 
-					} 
+					console .log( `EV${ elevator .index }: Go to ${ f } (${ t })` ); 
+					elevator .destinationQueue .push( f ); 
+					} ) 
+				// else 
+				|| console .log( elevator ) 
+					; 
 				elevator .checkDestinationQueue(); 
-				}; 
+				}; // -- .move 
 			
 			elevator .on( "floor_button_pressed", floorNum => { 
 				elevator .floorsToStop[ floorNum ] = true; 
