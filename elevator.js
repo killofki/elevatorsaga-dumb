@@ -1,3 +1,4 @@
+// from https://twitter.com/koreapyj/status/950706028160565248 
 ( { 
 	  waitUntilFull : false 
 	, stopWhenAvailable : false 
