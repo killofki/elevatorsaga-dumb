@@ -28,14 +28,18 @@
 						} 
 					} 
 				
-				if( waitUntilFull ) { 
+				if ( waitUntilFull ) { 
 					if ( 
 							   ( elevator .currentFloor() == 0 && elevator .loadFactor() < 0.7 ) 
 							|| ( elevator .currentFloor() != 0 && elevator .loadFactor() == 0 ) 
 							) { 
-						elevator .status = 'waiting'; 
-						clearTimeout( elevator .timer ); 
-						elevator .timer = setTimeout( q => elevator .move(), 1000 ); 
+						Object .assign( elevator, { 
+							  status : 'waiting' 
+							, timer : ( 
+								  clearTimeout( elevator .timer ) 
+								, setTimeout( q => elevator .move(), 1000 ) 
+								) 
+							} ); 
 						return; 
 						} 
 					else { 
@@ -274,7 +278,7 @@
 			floor .on( "up_button_pressed", floor => findBestElevator( floor, 'up' ) ); 
 			floor .on( "down_button_pressed", floor => findBestElevator( floor, 'down' ) ); 
 			} ); 
-		}
+		} // -- .init 
 	, update : ( dt, elevators, floors ) => {
 		// We normally don't need to do anything here
 		}
