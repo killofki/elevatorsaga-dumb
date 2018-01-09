@@ -80,12 +80,13 @@
 					, maxFloor = -1 
 					; 
 				for ( i = elevator .currentFloor(); i--; ) { 
-					if ( elevator .floorsToDown[ i ] ) {
-						downQueue[ 0 ] .push( i ); 
-						} 
-					if ( elevator .floorsToUp[ i ] ) { 
-						upQueue[ 0 ] .push( i ); 
-						} 
+					[ 
+						  [ 'Down', downQueue ]
+						, [ 'Up', upQueue ] 
+						] 
+					.forEach( ( [ f, q ] ) => 
+						elevator[ `floorsTo${ f }` ][ i ] ? q[ 0 ] .push( i ) : 0 
+						); 
 					if ( 
 								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
 							&& minFloor > i 
@@ -94,12 +95,13 @@
 						} 
 					} 
 				for ( i = elevator .currentFloor(); i < floors .length; i++ ) { 
-					if ( elevator .floorsToDown[ i ] ) {
-						downQueue[ 1 ] .push( i ); 
-						} 
-					if ( elevator .floorsToUp[ i ] ) {
-						upQueue[ 1 ] .push( i ); 
-						} 
+					[ 
+						  [ 'Down', downQueue ]
+						, [ 'Up', upQueue ] 
+						] 
+					.forEach( ( [ f, q ] ) => 
+						elevator[ `floorsTo${ f }` ][ i ] ? q[ 1 ] .push( i ) : 0 
+						); 
 					if ( 
 								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
 							&& maxFloor < i 
@@ -107,17 +109,15 @@
 						maxFloor = i;
 						} 
 					} 
-				
-				if ( ( upQueue[ 0 ] .length + downQueue[ 0 ] .length ) > ( upQueue[ 1 ] .length + downQueue[ 1 ] .length ) ) { 
-					elevator .goingUpIndicator( false ); 
-					elevator .goingDownIndicator( true ); 
-					elevator .goToFloor( minFloor ); 
-					} 
-				else { 
-					elevator .goingUpIndicator( true ); 
-					elevator .goingDownIndicator( false ); 
-					elevator .goToFloor( maxFloor ); 
-					} 
+				var 
+					  toDown = [ upQueue, downQueue ] 
+						.map( a => [ a[ 0 ] .length, a[ 1 ] .length ] ) 
+						.reduce( ( [ [ a0, a1 ], [ b0, b1 ] ] ) => a0 + b0 > a1 + b1 ) 
+					, toFloor = toDown ? minFloor : maxFloor 
+					; 
+				elevator .goingUpIndicator( toDown ); 
+				elevator .goingDownIndicator( ! toDown ); 
+				elevator .goToFloor( toFloor ); 
 				} ); 
 			
 			elevator .on( "stopped_at_floor", q => { 
