@@ -68,7 +68,7 @@
 				} ); 
 			
 			elevator .on( "idle", q => { 
-				console .log( `Elevator idle (${ elevator.maxPassengerCount() })` ); 
+				console .log( `Elevator idle (${ elevator .maxPassengerCount() })` ); 
 				elevator .goingUpIndicator( false ); 
 				elevator .goingDownIndicator( false ); 
 				
@@ -266,7 +266,7 @@
 					elevators[ bestElevatorByDistance ] .floorsToDown[ floor .level ] = true; 
 					}
 				elevators[ bestElevatorByDistance ] .move(); 
-				console .log( `EV${ elevator .index }: will go to floor ${ floor.level } (best selection by distance/${ direction })` ); 
+				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (best selection by distance/${ direction })` ); 
 				} 
 			}; 
 		
