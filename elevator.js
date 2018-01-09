@@ -19,8 +19,11 @@
 					  minFloor = floors .length + 1 
 					, maxFloor = -1 
 					; 
+				var 
+					floorsToX = v => elevator [ `floorsTo${ v }` ][ i ] 
+					; 
 				for ( i = floors .length; i--; ) { 
-					if ( [ 'Stop', 'Up', 'Down' ] .some( v => elevator [ `floorsTo${ v }` ][ i ] ) ) { 
+					if ( [ 'Stop', 'Up', 'Down' ] .some( floorsToX ) ) { 
 						maxFloor = maxFloor < i ? i : maxFloor; 
 						minFloor = minFloor > i ? i : minFloor; 
 						} 
@@ -58,9 +61,9 @@
 					console .log( elevator ); 
 					} 
 				elevator .checkDestinationQueue(); 
-				};
+				}; 
 			
-			elevator .on( "floor_button_pressed", floorNum => {
+			elevator .on( "floor_button_pressed", floorNum => { 
 				elevator .floorsToStop[ floorNum ] = true; 
 				elevator .move(); 
 				} ); 
