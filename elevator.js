@@ -1,4 +1,5 @@
 // from https://twitter.com/koreapyj/status/950706028160565248 
+// src https://github.com/koreapyj/elevatorsaga-dumb / elevator.js 
 ( { 
 	  waitUntilFull : false 
 	, stopWhenAvailable : false 
