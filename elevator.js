@@ -1,35 +1,33 @@
-( {
-	  waitUntilFull : false
-	, stopWhenAvailable : false
-	, init : function( elevators, floors ) {
-		waitUntilFull = this .waitUntilFull;
-		console .log( elevators );
+( { 
+	  waitUntilFull : false 
+	, stopWhenAvailable : false 
+	, init : function( elevators, floors ) { 
+		waitUntilFull = this .waitUntilFull; 
+		console .log( elevators ); 
 		for( i = 0; i < elevators .length; i++ ) { 
 			elevators[ i ] .index = i; 
 			} 
-		_ .each( elevators, elevator => {
-			elevator .floorsToUp = [];
-			elevator .floorsToDown = [];
-			elevator .floorsToStop = [];
-				
+		_ .each( elevators, elevator => { 
+			Object .assign( elevator, { 
+				  floorsToUp : [] 
+				, floorsToDown : [] 
+				, floorsToStop : [] 
+				} ); 
+			
 			elevator .move = q => { 
 				var 
 					  minFloor = floors .length + 1 
 					, maxFloor = -1 
 					; 
 				for ( i = floors .length; i--; ) { 
-					if ( 
-							   elevator .floorsToStop[ i ] 
-							|| elevator .floorsToUp[ i ] 
-							|| elevator .floorsToDown[ i ] 
-							) { 
+					if ( [ 'Stop', 'Up', 'Down' ] .some( v => elevator [ `floorsTo${ v }` ][ i ] ) ) { 
 						maxFloor = maxFloor < i ? i : maxFloor; 
 						minFloor = minFloor > i ? i : minFloor; 
 						} 
 					} 
 				
 				if( waitUntilFull ) { 
-                 if ( 
+					if ( 
 							   ( elevator .currentFloor() == 0 && elevator .loadFactor() < 0.7 ) 
 							|| ( elevator .currentFloor() != 0 && elevator .loadFactor() == 0 ) 
 							) { 
@@ -38,7 +36,7 @@
 						elevator .timer = setTimeout( q => elevator .move(), 1000 ); 
 						return; 
 						} 
-                 else { 
+					else { 
 						elevator .status = null; 
 						} 
 					} 
