@@ -218,7 +218,7 @@
 				if ( 
 						   neededDirection 
 						&& sameDirection 
-						&& bestCapacity < elevator.maxPassengerCount() 
+						&& bestCapacity < elevator .maxPassengerCount() 
 						) { 
 					if ( elevator .floorsToStop .slice( elevator .currentFloor(), floor .level ) .indexOf( true ) != -1 ) { 
 						bestElevator = i; 
