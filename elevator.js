@@ -73,7 +73,7 @@
 					[ [ 'goiongUpIndicator', ingUpIndicator ], [ 'goingDownIndicator', ingDownIndicator ] ] .forEach( 
 						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
 						); 
-					if ( toFloor !== undefined ) { 
+					if ( ToFloor !== undefined ) { 
 						elevator .goToFloor( ToFloor ); 
 						} 
 					} 
