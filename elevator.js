@@ -179,7 +179,7 @@
 							} 
 						return true; 
 						} 
-					} ) 
+					} ) // -- [ [ 'up' ] ] .some() 
 				// else.. 
 				|| [ 'floorsToStop' ] 
 				.some( f => { 
@@ -187,7 +187,7 @@
 						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
 						elevator .destinationQueue .unshift( floorNum ); 
 						} 
-					} ); 
+					} ); // -- [ 'floorsToStop' ] .some() 
 				elevator .checkDestinationQueue(); 
 				} ); // -- .on( 'passing_floor' ) 
 			} ); // -- _ .each( elevators ) 
