@@ -128,24 +128,26 @@
 				else { 
 					if( elevator .goingUpIndicator() ) { 
 						for( i = elevator .currentFloor(); ++i < floors .length; ) { 
-							if( [ 'Up', 'Down', 'Stop' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) ) { 
+							if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
 								needToMoveMore = true; 
 								} 
 							} 
 						if( ! needToMoveMore ) { 
-							elevator .goingUpIndicator( false ); 
-							elevator .goingDownIndicator( true ); 
+							[ [ 'goingUpIndicator', false ], [ 'goingDownIndicator', true ] ] .forEach( 
+								( [ f, v ] ) => elevator[ f ]( v ) 
+								); 
 							} 
 						} 
 					else if( elevator .goingDownIndicator() ) { 
 						for( i = elevator .currentFloor(); i--; ) { 
-							if ( [ 'Up', 'Down', 'Stop' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) ) { 
+							if ( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
 								needToMoveMore = true; 
 								} 
 							} 
 						if( ! needToMoveMore ) { 
-							elevator .goingUpIndicator( true ); 
-							elevator .goingDownIndicator( false ); 
+							[ [ 'goingUpIndicator', true ], [ 'goingDownIndicator', false ] ] .forEach( 
+								( [ f, v ] ) => elevator[ f ]( v ) 
+								); 
 							} 
 						} 
 					} 
