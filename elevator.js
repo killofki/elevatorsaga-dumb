@@ -134,24 +134,24 @@
 					, [ 'goingDownIndicator', true, false, F => { for( i = elevator .currentFloor(); i--; ) { F( i ); } } ] 
 					] 
 				.some( ( [ g, u, d, F ] ) => { 
-					if ( elevator[ g ]() ) { 
-						F( i => { 
-							if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
-								needToMoveMore = true; 
-								} 
-							} ); 
-						if( ! needToMoveMore ) { 
-							goElevator( elevator, u, d ); 
+					if ( ! elevator[ g ]() ) 
+						{ return; }
+					F( i => { 
+						if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
+							needToMoveMore = true; 
 							} 
-						return true; 
+						} ); 
+					if( ! needToMoveMore ) { 
+						goElevator( elevator, u, d ); 
 						} 
+					return true; 
 					} ); 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
 				.some( ( [ g, f ] => { 
-					if ( elevator[ g ]() ) { 
-						elevator[ f ][ floorNum ] = false; 
-						return true; 
-						} 
+					if ( ! elevator[ g ]() ) 
+						{ return; } 
+					elevator[ f ][ floorNum ] = false; 
+					return true; 
 					} ); 
 				elevator .floorsToStop[ floorNum ] = false; 
 				} ); // -- .on( 'stopped_at_floor' ) 
@@ -159,29 +159,30 @@
 			elevator .on( "passing_floor", ( floorNum, direction ) => { 
 				[ [ 'up', 'floorsToUp' ], [ 'down', 'floorsToDown' ] ] 
 				.some( ( [ d, f ] ) => { 
-					if ( 
+					if ( ! (
 							   direction === d 
 							&& elevator[ f ][ floorNum ] 
-							) { 
-						if ( elevator .loadFactor() < 0.5 ) { 
-							console .log( `EV${ elevator .index }: Stop at ${ floorNum } (waiting passenger)` ); 
-							elevator .destinationQueue .unshift( floorNum ); 
-							} 
-						else { 
-							findBestElevator( floorNum, d ); 
-							elevator[ f ][ floorNum ] = false; 
-							} 
-						return true; 
+							) ) 
+						{ return; } 
+					
+					if ( elevator .loadFactor() < 0.5 ) { 
+						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (waiting passenger)` ); 
+						elevator .destinationQueue .unshift( floorNum ); 
 						} 
+					else { 
+						findBestElevator( floorNum, d ); 
+						elevator[ f ][ floorNum ] = false; 
+						} 
+					return true; 
 					} ) // -- [ [ 'up' ] ] .some() 
 				// else.. 
 				|| [ 'floorsToStop' ] 
 				.some( f => { 
-					if ( elevator[ f ][ floorNum ] ) { 
-						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
-						elevator .destinationQueue .unshift( floorNum ); 
-						return true; 
-						} 
+					if ( ! elevator[ f ][ floorNum ] ) 
+						{ return; } 
+					console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
+					elevator .destinationQueue .unshift( floorNum ); 
+					return true; 
 					} ); // -- [ 'floorsToStop' ] .some() 
 				elevator .checkDestinationQueue(); 
 				} ); // -- .on( 'passing_floor' ) 
@@ -235,16 +236,17 @@
 				} 
 			[ [ bestElevator, 'on the road' ], [ bestElevatorByDistance, 'best selection by distance' ] ] 
 			.some( ( [ v, t ] ) => { 
-				if ( v != -1 ) { 
-					elevators[ v ] 
-						[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
-						[ floor .level ] = true 
-						; 
-					elevators[ v ] .move(); 
-					// elevator from where..? 
-					console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (${ t }/${ direction })` ); 
-					return true; 
-					} 
+				if ( ! ( v != -1 ) ) 
+					{ return; } 
+				
+				elevators[ v ] 
+					[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
+					[ floor .level ] = true 
+					; 
+				elevators[ v ] .move(); 
+				// elevator from where..? 
+				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (${ t }/${ direction })` ); 
+				return true; 
 				} ); 
 			}; // -- findBestElevator 
 		
