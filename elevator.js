@@ -130,7 +130,7 @@
 					] 
 				.some( ( [ g, u, d, F ] ) => { 
 					if ( ! elevator[ g ]() ) 
-						{ return; }
+						{ return; } 
 					F( i => [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) && ( needToMoveMore = true ) ); 
 					needToMoveMore || goElevator( elevator, u, d ); 
 					return true; 
