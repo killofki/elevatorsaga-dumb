@@ -147,7 +147,7 @@
 					return true; 
 					} ); 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
-				.some( ( [ g, f ] => { 
+				.some( ( [ g, f ] ) => { 
 					if ( ! elevator[ g ]() ) 
 						{ return; } 
 					elevator[ f ][ floorNum ] = false; 
