@@ -129,7 +129,7 @@
 				.some( ( [ v, u, d ] ) => ( floorNum == v ) && ( goElevator( elevator, u, d ), true ) ) 
 				// else 
 				|| [ 
-					  [ 'goingUpIndicator', false, true, F => { for( i = elevator .currentFloor(); ++i < floors .length; ) { F( i ); } } ]
+					  [ 'goingUpIndicator', false, true, F => { for( i = elevator .currentFloor(); ++i < floors .length; ) { F( i ); } } ] 
 					, [ 'goingDownIndicator', true, false, F => { for( i = elevator .currentFloor(); i--; ) { F( i ); } } ] 
 					] 
 				.some( ( [ g, u, d, F ] ) => { 
