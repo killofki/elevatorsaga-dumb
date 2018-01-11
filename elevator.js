@@ -147,12 +147,8 @@
 					return true; 
 					} ); 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
-				.some( ( [ g, f ] ) => { 
-					if ( ! elevator[ g ]() ) 
-						{ return; } 
-					elevator[ f ][ floorNum ] = false; 
-					return true; 
-					} ); 
+				.some( ( [ g, f ] ) => elevator[ g ]() && ( ( elevator[ f ][ floorNum ] = false ), true ) )
+					; 
 				elevator .floorsToStop[ floorNum ] = false; 
 				} ); // -- .on( 'stopped_at_floor' ) 
 			
@@ -199,9 +195,9 @@
 			for ( i = elevators .length; i--; ) { 
 				elevator = elevators[ i ]; 
 				sameDirection = 0; // for or operator 
-				[ [ 'up', 'goingUpIndicator' ], [ 'down', 'goingDownIndicator' ] ] .some( 
-					( [ d, f ] ) => sameDirection = sameDirection || direction == d && elevator[ f ]() 
-					) ; 
+				[ [ 'up', 'goingUpIndicator' ], [ 'down', 'goingDownIndicator' ] ] 
+				.some( ( [ d, f ] ) => sameDirection = sameDirection || direction == d && elevator[ f ]() ) 
+					; 
 				neededDirection = ( elevator .currentFloor() < floor .level ? 'up' : 'down' ) == direction; 
 				if ( 
 						   neededDirection 
