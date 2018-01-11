@@ -29,10 +29,7 @@
 							) { 
 						Object .assign( elevator, { 
 							  status : 'waiting' 
-							, timer : ( 
-								  clearTimeout( elevator .timer ) 
-								, setTimeout( q => elevator .move(), 1000 ) 
-								) 
+							, timer : ( clearTimeout( elevator .timer ), setTimeout( q => elevator .move(), 1000 ) ) 
 							} ); 
 						return; 
 						} 
@@ -40,10 +37,7 @@
 				
 				elevator .status = null; 
 				var stopFloor = -1; 
-				[ 
-					  [ 'goingUpIndicator', 'maxinum', maxFloor ]
-					, [ 'goingDownIndicator', 'minimum', minFloor ] 
-					] 
+				[ [ 'goingUpIndicator', 'maxinum', maxFloor ], [ 'goingDownIndicator', 'minimum', minFloor ] ] 
 				.some( ( [ g, t, f ] ) => { 
 					if ( ! elevator[ g ]() ) 
 						{ return; } 
@@ -131,7 +125,8 @@
 					F( i => [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) && ( needToMoveMore = true ) ); 
 					needToMoveMore || goElevator( elevator, u, d ); 
 					return true; 
-					} ); 
+					} )
+					; 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
 				.some( ( [ g, f ] ) => elevator[ g ]() && ( ( elevator[ f ][ floorNum ] = false ), true ) ) 
 					; 
@@ -162,7 +157,8 @@
 					console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
 					elevator .destinationQueue .unshift( floorNum ); 
 					return true; 
-					} ); // -- [ 'floorsToStop' ] .some() 
+					} ) // -- [ 'floorsToStop' ] .some() 
+					; 
 				elevator .checkDestinationQueue(); 
 				} ); // -- .on( 'passing_floor' ) 
 			} ); // -- _ .each( elevators ) 
