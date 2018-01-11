@@ -125,32 +125,26 @@
 					  floorNum = elevator .currentFloor() 
 					, needToMoveMore = false 
 					; 
-				if ( floorNum == 0 ) { 
-					goElevator( elevator, true, false ); 
-					} 
-				else if( floorNum == floors .length - 1 ) { 
-					goElevator( elevator, false, true ); 
-					} 
-				else if( elevator .goingUpIndicator() ) { 
-					for( i = elevator .currentFloor(); ++i < floors .length; ) { 
-						if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
-							needToMoveMore = true; 
+				[ [ 0, true, false ], [ floors .length - 1, false, true ] ] 
+				.some( ( [ v, u, d ] ) => ( floorNum == v ) && ( goElevator( elevator, u, d ), true ) ) 
+				// else 
+				|| [ 
+					  [ 'goingUpIndicator', false, true, F => { for( i = elevator .currentFloor(); ++i < floors .length; ) { F( i ); } } ]
+					, [ 'goingDownIndicator', true, false, F => { for( i = elevator .currentFloor(); i--; ) { F( i ); } } ] 
+					] 
+				.some( ( [ g, u, d, F ] ) => { 
+					if ( elevator[ g ]() ) { 
+						F( i => { 
+							if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
+								needToMoveMore = true; 
+								} 
+							} ); 
+						if( ! needToMoveMore ) { 
+							goElevator( elevator, u, d ); 
 							} 
+						return true; 
 						} 
-					if( ! needToMoveMore ) { 
-						goElevator( elevator, false, true ); 
-						} 
-					} 
-				else if( elevator .goingDownIndicator() ) { 
-					for( i = elevator .currentFloor(); i--; ) { 
-						if ( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
-							needToMoveMore = true; 
-							} 
-						} 
-					if( ! needToMoveMore ) { 
-						goElevator( elevator, true, false ); 
-						} 
-					} 
+					} ); 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
 				.some( ( [ g, f ] => { 
 					if ( elevator[ g ]() ) { 
