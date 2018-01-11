@@ -118,7 +118,7 @@
 					, toFloor = toDown ? minFloor : maxFloor 
 					; 
 				goElevator( elevator, toDown, ! toDown, toFloor ); 
-				} ); // -- .on( 'idle', ... ) 
+				} ); // -- .on( 'idle' ) 
 			
 			elevator .on( "stopped_at_floor", q => { 
 				var 
@@ -160,41 +160,36 @@
 					elevator .floorsToDown[ floorNum ] = false; 
 					} 
 				elevator .floorsToStop[ floorNum ] = false; 
-				} ); 
+				} ); // -- .on( 'stopped_at_floor' ) 
 			
 			elevator .on( "passing_floor", ( floorNum, direction ) => { 
-				if ( 
-							direction == 'up' 
-						&& elevator .floorsToUp[ floorNum ] 
+				[ [ 'up', 'floorsToUp' ], [ 'down', 'floorsToDown' ] ] 
+				.some( ( [ d, f ] ) => { 
+					if ( 
+						   direction === d 
+						&& elevator[ f ][ floorNum ] 
 						) { 
-					if ( elevator .loadFactor() < 0.5 ) { 
-						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (waiting passenger)` ); 
+						if ( elevator .loadFactor() < 0.5 ) { 
+							console .log( `EV${ elevator .index }: Stop at ${ floorNum } (waiting passenger)` ); 
+							elevator .destinationQueue .unshift( floorNum ); 
+							} 
+						else { 
+							findBestElevator( floorNum, 'up' ); 
+							elevator[ f ][ floorNum ] = false; 
+							} 
+						
+						return true; 
+						}
+					} ) 
+				|| [ 'floorsToStop' ] .some( f => { 
+					if ( elevator[ f ][ floorNum ] ) { 
+						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
 						elevator .destinationQueue .unshift( floorNum ); 
 						} 
-					else { 
-						findBestElevator( floorNum, 'up' ); 
-						elevator .floorsToUp[ floorNum ] = false; 
-						} 
-					} 
-				else if( 
-							direction == 'down' 
-						&& elevator .floorsToDown[ floorNum ] 
-						) { 
-					if ( elevator .loadFactor() < 0.5 ) { 
-						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (waiting passenger)` ); 
-						elevator .destinationQueue .unshift( floorNum ); 
-						} 
-					else { 
-						findBestElevator( floorNum, 'down' ); 
-						elevator .floorsToDown[ floorNum ] = false; 
-						} 
-					} 
-				else if( elevator .floorsToStop[ floorNum ] ) { 
-					console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
-					elevator .destinationQueue .unshift( floorNum ); 
-					} 
+					} ) 
+					; 
 				elevator .checkDestinationQueue(); 
-				} ); 
+				} ); // -- .on( 'passing_floor' ) 
 			} ); 
 		
 		var findBestElevator = ( floor, direction ) => { 
