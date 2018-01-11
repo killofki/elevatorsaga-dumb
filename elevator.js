@@ -102,9 +102,9 @@
 					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] 
 					.forEach( ( [ f, q ] ) => elevator[ f ][ i ] ? q[ p ] .push( i ) : 0 )
 						; 
-					if ( [ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) ) { 
-						r( i ); 
-						} 
+					[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
+					&& r( i )
+						; 
 					} ) ); // -- [ [ F => {} ] ] .forEach() 
 				
 				var 
