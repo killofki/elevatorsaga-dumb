@@ -104,13 +104,14 @@
 						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 1 ] .push( i ) : 0 
 						); 
 					if ( 
-								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
+								[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
 							&& maxFloor < i 
 							) { 
-						maxFloor = i;
+						maxFloor = i; 
 						} 
 					} 
 				var 
+					// weight if to down needs 
 					  toDown = [ upQueue, downQueue ] 
 						.map( a => [ a[ 0 ] .length, a[ 1 ] .length ] ) 
 						.reduce( ( [ [ a0, a1 ], [ b0, b1 ] ] ) => a0 + b0 > a1 + b1 ) 
