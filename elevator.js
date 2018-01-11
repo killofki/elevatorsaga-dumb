@@ -76,7 +76,7 @@
 					if ( ToFloor !== undefined ) { 
 						elevator .goToFloor( ToFloor ); 
 						} 
-					} 
+					} // -- goElevator 
 				; 
 			
 			elevator .on( "idle", q => { 
