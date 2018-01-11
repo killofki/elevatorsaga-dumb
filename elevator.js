@@ -179,6 +179,7 @@
 					if ( elevator[ f ][ floorNum ] ) { 
 						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
 						elevator .destinationQueue .unshift( floorNum ); 
+						return true; 
 						} 
 					} ); // -- [ 'floorsToStop' ] .some() 
 				elevator .checkDestinationQueue(); 
