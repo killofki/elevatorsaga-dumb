@@ -153,12 +153,13 @@
 							} 
 						} 
 					} 
-				if ( elevator .goingUpIndicator() ) { 
-					elevator .floorsToUp[ floorNum ] = false; 
-					} 
-				else if( elevator .goingDownIndicator() ) { 
-					elevator .floorsToDown[ floorNum ] = false; 
-					} 
+				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
+				.some( ( [ g, f ] => { 
+					if ( elevator[ g ]() ) { 
+						elevator[ f ][ floorNum ] = false; 
+						return true; 
+						} 
+					} ); 
 				elevator .floorsToStop[ floorNum ] = false; 
 				} ); // -- .on( 'stopped_at_floor' ) 
 			
