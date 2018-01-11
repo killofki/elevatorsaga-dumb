@@ -11,11 +11,7 @@
 			elevators[ i ] .index = i; 
 			} 
 		_ .each( elevators, elevator => { 
-			Object .assign( elevator, { 
-				  floorsToUp : [] 
-				, floorsToDown : [] 
-				, floorsToStop : [] 
-				} ); 
+			Object .assign( elevator, { floorsToUp : [], floorsToDown : [], floorsToStop : [] } ); 
 			
 			elevator .move = q => { 
 				var [ minFloor, maxFloor ] = [ floors .length + 1, -1 ]; 
