@@ -66,7 +66,7 @@
 			elevator .on( "floor_button_pressed", floorNum => { 
 				elevator .floorsToStop[ floorNum ] = true; 
 				elevator .move(); 
-				} ); 
+				} ); // -- .on( 'floor_button_pressed' ) 
 			
 			var 
 				goElevator = ( elevator, ingUpIndicator, ingDownIndicator, ToFloor ) => {
@@ -190,7 +190,7 @@
 					; 
 				elevator .checkDestinationQueue(); 
 				} ); // -- .on( 'passing_floor' ) 
-			} ); 
+			} ); // -- _ .each( elevators ) 
 		
 		var findBestElevator = ( floor, direction ) => { 
 			var 
