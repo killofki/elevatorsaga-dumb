@@ -240,23 +240,21 @@
 					} 
 				} 
 			if ( bestElevator != -1 ) { 
-				if ( direction == 'up' ) {
-					elevators[ bestElevator ] .floorsToUp[ floor .level ] = true; 
-					} 
-				else {
-					elevators[ bestElevator ] .floorsToDown[ floor .level ] = true; 
-					} 
+				elevators
+					[ bestElevator ]
+					[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ]
+					[ floor .level ] = true
+					; 
 				elevators[ bestElevator ] .move(); 
 				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (on the road/${ direction })` ); 
 				return; 
 				} 
 			else if ( bestElevatorByDistance != -1 ) { 
-				if ( direction == 'up' ) {
-					elevators[ bestElevatorByDistance ] .floorsToUp[ floor .level ] = true; 
-					} 
-				else {
-					elevators[ bestElevatorByDistance ] .floorsToDown[ floor .level ] = true; 
-					}
+				elevators
+					[ bestElevatorByDistance ]
+					[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ]
+					[ floor .level ] = true
+					; 
 				elevators[ bestElevatorByDistance ] .move(); 
 				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (best selection by distance/${ direction })` ); 
 				} 
