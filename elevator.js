@@ -187,8 +187,7 @@
 						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
 						elevator .destinationQueue .unshift( floorNum ); 
 						} 
-					} ) 
-					; 
+					} ); 
 				elevator .checkDestinationQueue(); 
 				} ); // -- .on( 'passing_floor' ) 
 			} ); // -- _ .each( elevators ) 
