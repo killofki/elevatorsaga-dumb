@@ -103,7 +103,7 @@
 					.forEach( ( [ f, q ] ) => elevator[ f ][ i ] ? q[ p ] .push( i ) : 0 ) 
 						; 
 					[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
-					&& r( i )
+					&& r( i ) 
 						; 
 					} ) ); // -- [ [ F => {} ] ] .forEach() 
 				
