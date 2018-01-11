@@ -70,25 +70,21 @@
 			
 			elevator .on( "idle", q => { 
 				console .log( `Elevator idle (${ elevator .maxPassengerCount() })` ); 
-				elevator .goingUpIndicator( false ); 
-				elevator .goingDownIndicator( false ); 
+				[ 'goingUpIndicator', 'goingDownIndicator' ] .forEach( 
+					f => elevator[ f ]( false ) 
+					); 
 				
 				var 
 					  upQueue = [ [], [] ] 
 					, downQueue = [ [], [] ] 
-					, minFloor = floors .length + 1 
-					, maxFloor = -1 
+					, [ minFloor, maxFloor ] = [ floors .length + 1, -1 ] 
 					; 
 				for ( i = elevator .currentFloor(); i--; ) { 
-					[ 
-						  [ 'Down', downQueue ]
-						, [ 'Up', upQueue ] 
-						] 
-					.forEach( ( [ f, q ] ) => 
-						elevator[ `floorsTo${ f }` ][ i ] ? q[ 0 ] .push( i ) : 0 
+					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] .forEach( 
+						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
 						); 
 					if ( 
-								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
+								[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
 							&& minFloor > i 
 							) { 
 						minFloor = i; 
