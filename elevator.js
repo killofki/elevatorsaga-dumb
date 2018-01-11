@@ -131,26 +131,24 @@
 				else if( floorNum == floors .length - 1 ) { 
 					goElevator( elevator, false, true ); 
 					} 
-				else { 
-					if( elevator .goingUpIndicator() ) { 
-						for( i = elevator .currentFloor(); ++i < floors .length; ) { 
-							if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
-								needToMoveMore = true; 
-								} 
-							} 
-						if( ! needToMoveMore ) { 
-							goElevator( elevator, false, true ); 
+				else if( elevator .goingUpIndicator() ) { 
+					for( i = elevator .currentFloor(); ++i < floors .length; ) { 
+						if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
+							needToMoveMore = true; 
 							} 
 						} 
-					else if( elevator .goingDownIndicator() ) { 
-						for( i = elevator .currentFloor(); i--; ) { 
-							if ( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
-								needToMoveMore = true; 
-								} 
+					if( ! needToMoveMore ) { 
+						goElevator( elevator, false, true ); 
+						} 
+					} 
+				else if( elevator .goingDownIndicator() ) { 
+					for( i = elevator .currentFloor(); i--; ) { 
+						if ( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
+							needToMoveMore = true; 
 							} 
-						if( ! needToMoveMore ) { 
-							goElevator( elevator, true, false ); 
-							} 
+						} 
+					if( ! needToMoveMore ) { 
+						goElevator( elevator, true, false ); 
 						} 
 					} 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
