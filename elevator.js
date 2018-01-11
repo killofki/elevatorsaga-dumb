@@ -168,11 +168,7 @@
 				.some( ( [ d, f ] ) => sameDirection = sameDirection || direction == d && elevator[ f ]() ) 
 					; 
 				neededDirection = ( elevator .currentFloor() < floor .level ? 'up' : 'down' ) == direction; 
-				if ( 
-						   neededDirection 
-						&& sameDirection 
-						&& bestCapacity < elevator .maxPassengerCount() 
-						) { 
+				if ( neededDirection && sameDirection && bestCapacity < elevator .maxPassengerCount() ) { 
 					if ( elevator .floorsToStop .slice( elevator .currentFloor(), floor .level ) .indexOf( true ) != -1 ) { 
 						bestElevator = i; 
 						bestCapacity = elevator .maxPassengerCount(); 
