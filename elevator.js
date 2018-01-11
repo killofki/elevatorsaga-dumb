@@ -250,9 +250,11 @@
 			}; // -- findBestElevator 
 		
 		_ .each( floors, floor => { 
-			floor .on( "up_button_pressed", floor => findBestElevator( floor, 'up' ) ); 
-			floor .on( "down_button_pressed", floor => findBestElevator( floor, 'down' ) ); 
-			} ); 
+			[ [ 'up_button_pressed', 'up' ], [ 'down_button_pressed', 'down' ] ] 
+			.forEach( ( [ f, e ] ) => { 
+				floor .on( f, floor => findBestElevator( floor, e ) ); 
+				} ); 
+			} ); // -- _ .each( floors ) 
 		} // -- .init 
 	, update : ( dt, elevators, floors ) => { 
 		// We normally don't need to do anything here 
