@@ -204,7 +204,7 @@
 				elevator = elevators[ i ]; 
 				sameDirection = 
 					   ( direction == 'up' && elevator .goingUpIndicator() ) 
-					|| ( direction == 'down' && elevator .goingDownIndicator() )
+					|| ( direction == 'down' && elevator .goingDownIndicator() ) 
 					; 
 				neededDirection = ( elevator .currentFloor() < floor .level ? 'up' : 'down' ) == direction; 
 				if ( 
@@ -248,7 +248,7 @@
 					return true; 
 					} 
 				} ); 
-			}; 
+			}; // -- findBestElevator 
 		
 		_ .each( floors, floor => { 
 			floor .on( "up_button_pressed", floor => findBestElevator( floor, 'up' ) ); 
