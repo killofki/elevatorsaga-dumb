@@ -22,8 +22,7 @@
 						} 
 					} 
 				
-				if ( 
-						waitUntilFull 
+				if ( waitUntilFull // with if 
 						&& [ 'currentFloor', 'loadFactor' ] 
 							.map( f => elevator[ f ]() ) .reduce( ( c, f ) => ( c == 0 && f < 0 ) || ( c != 0 && f == 0 ) ) 
 						) { 
@@ -84,9 +83,7 @@
 					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] 
 					.forEach( ( [ f, q ] ) => elevator[ f ][ i ] ? q[ p ] .push( i ) : 0 ) 
 						; 
-					[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
-					&& r( i ) 
-						; 
+					[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) && r( i ); // with if 
 					} ) ); // -- [ [ F => {} ] ] .forEach() 
 				
 				// weight if to down needs 
@@ -103,7 +100,7 @@
 					, needToMoveMore = false 
 					; 
 				[ [ 0, true, false ], [ floors .length - 1, false, true ] ] 
-				.some( ( [ v, u, d ] ) => ( floorNum == v ) && ( goElevator( elevator, u, d ), true ) ) 
+				.some( ( [ v, u, d ] ) => ( floorNum == v ) && ( goElevator( elevator, u, d ), true ) ) // with if 
 				// else 
 				|| [ 
 					  [ 'goingUpIndicator', false, true, F => { for( i = elevator .currentFloor(); ++i < floors .length; ) { F( i ); } } ] 
@@ -112,14 +109,14 @@
 				.some( ( [ g, u, d, F ] ) => { 
 					if ( ! elevator[ g ]() ) 
 						{ return; } 
+					// with if 
 					F( i => [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) && ( needToMoveMore = true ) ); 
 					needToMoveMore || goElevator( elevator, u, d ); 
 					return true; 
 					} )
 					; 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
-				.some( ( [ g, f ] ) => elevator[ g ]() && ( ( elevator[ f ][ floorNum ] = false ), true ) ) 
-					; 
+				.some( ( [ g, f ] ) => elevator[ g ]() && ( ( elevator[ f ][ floorNum ] = false ), true ) ); // with if 
 				elevator .floorsToStop[ floorNum ] = false; 
 				} ); // -- .on( 'stopped_at_floor' ) 
 			
@@ -165,8 +162,7 @@
 				elevator = elevators[ i ]; 
 				sameDirection = 0; // for or operator 
 				[ [ 'up', 'goingUpIndicator' ], [ 'down', 'goingDownIndicator' ] ] 
-				.some( ( [ d, f ] ) => sameDirection = sameDirection || direction == d && elevator[ f ]() ) 
-					; 
+				.some( ( [ d, f ] ) => sameDirection = sameDirection || direction == d && elevator[ f ]() ); // with if 
 				neededDirection = ( elevator .currentFloor() < floor .level ? 'up' : 'down' ) == direction; 
 				if ( neededDirection && sameDirection && bestCapacity < elevator .maxPassengerCount() ) { 
 					if ( elevator .floorsToStop .slice( elevator .currentFloor(), floor .level ) .indexOf( true ) != -1 ) { 
@@ -180,7 +176,7 @@
 						] 
 					.map( Math .abs ) .reduce( ( a, b ) => a + b ) 
 					; 
-				( distance < bestDistance ) && ( [ bestElevatorByDistance, bestDistance ] = [ i, distance ] ); 
+				( distance < bestDistance ) && ( [ bestElevatorByDistance, bestDistance ] = [ i, distance ] ); // with if 
 				} 
 			[ [ bestElevator, 'on the road' ], [ bestElevatorByDistance, 'best selection by distance' ] ] 
 			.some( ( [ v, t ] ) => { 
