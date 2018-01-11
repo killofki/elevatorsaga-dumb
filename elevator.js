@@ -22,16 +22,16 @@
 						} 
 					} 
 				
-				if ( waitUntilFull ) { 
-					if ( [ 'currentFloor', 'loadFactor' ] 
+				if ( 
+						waitUntilFull 
+						&& [ 'currentFloor', 'loadFactor' ] 
 							.map( f => elevator[ f ]() ) .reduce( ( c, f ) => ( c == 0 && f < 0 ) || ( c != 0 && f == 0 ) ) 
-							) { 
-						Object .assign( elevator, { 
-							  status : 'waiting' 
-							, timer : ( clearTimeout( elevator .timer ), setTimeout( q => elevator .move(), 1000 ) ) 
-							} ); 
-						return; 
-						} 
+						) { 
+					Object .assign( elevator, { 
+						  status : 'waiting' 
+						, timer : ( clearTimeout( elevator .timer ), setTimeout( q => elevator .move(), 1000 ) ) 
+						} ); 
+					return; 
 					} 
 				
 				elevator .status = null; 
