@@ -111,7 +111,7 @@
 						{ return; } 
 					// with if 
 					F( i => [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) && ( needToMoveMore = true ) ); 
-					needToMoveMore || goElevator( elevator, u, d ); 
+					needToMoveMore || goElevator( elevator, u, d ); // with if not 
 					return true; 
 					} )
 					; 
