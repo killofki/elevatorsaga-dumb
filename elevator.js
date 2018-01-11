@@ -197,7 +197,7 @@
 		
 		_ .each( floors, floor => 
 			[ [ 'up_button_pressed', 'up' ], [ 'down_button_pressed', 'down' ] ] 
-			.forEach( ( [ f, e ] ) => floor .on( f, floor => findBestElevator( floor, e ) ) ); 
+			.forEach( ( [ f, e ] ) => floor .on( f, floor => findBestElevator( floor, e ) ) ) 
 			); // -- _ .each( floors ) 
 		} // -- .init 
 	, update : ( dt, elevators, floors ) => { 
