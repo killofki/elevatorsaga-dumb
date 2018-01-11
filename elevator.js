@@ -22,7 +22,7 @@
 					, maxFloor = -1 
 					; 
 				for ( i = floors .length; i--; ) { 
-					if ( [ 'Stop', 'Up', 'Down' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) ) { 
+					if ( [ 'floorsToStop', 'floorsToUp', 'floorsToDown' ] .some( f => elevator[ f ][ i ] ) ) { 
 						maxFloor = maxFloor < i ? i : maxFloor; 
 						minFloor = minFloor > i ? i : minFloor; 
 						} 
@@ -47,11 +47,11 @@
 				elevator .status = null; 
 				var stopFloor = -1; 
 				[ 
-					  [ 'Up', 'maxinum', maxFloor ]
-					, [ 'Down', 'minimum', minFloor ] 
+					  [ 'goingUpIndicator', 'maxinum', maxFloor ]
+					, [ 'goingDownIndicator', 'minimum', minFloor ] 
 					] 
-				.some( ( [ v, t, f ] ) => { 
-					if ( ! elevator[ `going${ v }Indicator` ]() ) 
+				.some( ( [ g, t, f ] ) => { 
+					if ( ! elevator[ g ]() ) 
 						{ return; } 
 					elevator .destinationQueue .pop(); 
 					console .log( `EV${ elevator .index }: Go to ${ f } (${ t })` ); 
@@ -70,7 +70,7 @@
 			
 			var 
 				goElevator = ( elevator, ingUpIndicator, ingDownIndicator, ToFloor ) => {
-					[ [ 'goiongUpIndicator', ingUpIndicator ], [ 'goingDownIndicator', ingDownIndicator ] ] .forEach( 
+					[ [ 'goingUpIndicator', ingUpIndicator ], [ 'goingDownIndicator', ingDownIndicator ] ] .forEach( 
 						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
 						); 
 					if ( ToFloor !== undefined ) { 
