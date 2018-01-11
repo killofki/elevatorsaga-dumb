@@ -70,7 +70,7 @@
 			
 			var 
 				goElevator = ( elevator, ingUpIndicator, ingDownIndicator, ToFloor ) => {
-					[ [ 'floorsToDown', ingUp ], [ 'floorsToUp', ingDown ] ] .forEach( 
+					[ [ 'goiongUpIndicator', ingUpIndicator ], [ 'goingDownIndicator', ingDownIndicator ] ] .forEach( 
 						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
 						); 
 					if ( toFloor !== undefined ) { 
