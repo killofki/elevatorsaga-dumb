@@ -23,9 +23,8 @@
 					} 
 				
 				if ( waitUntilFull ) { 
-					if ( 
-							   ( elevator .currentFloor() == 0 && elevator .loadFactor() < 0.7 ) 
-							|| ( elevator .currentFloor() != 0 && elevator .loadFactor() == 0 ) 
+					if ( [ 'currentFloor', 'loadFactor' ] 
+							.map( f => elevator[ f ]() ) .reduce( ( c, f ) => ( c == 0 && f < 0 ) || ( c != 0 && f == 0 ) ) 
 							) { 
 						Object .assign( elevator, { 
 							  status : 'waiting' 
