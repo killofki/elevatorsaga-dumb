@@ -6,6 +6,7 @@
 	, init : function( elevators, floors ) { 
 		waitUntilFull = this .waitUntilFull; 
 		console .log( elevators ); 
+		// i ..? 
 		for( i = 0; i < elevators .length; i++ ) { 
 			elevators[ i ] .index = i; 
 			} 
@@ -18,7 +19,6 @@
 			
 			elevator .move = q => { 
 				var [ minFloor, maxFloor ] = [ floors .length + 1, -1 ]; 
-				// i ..? 
 				for ( i = floors .length; i--; ) { 
 					if ( [ 'floorsToStop', 'floorsToUp', 'floorsToDown' ] .some( f => elevator[ f ][ i ] ) ) { 
 						maxFloor = maxFloor < i ? i : maxFloor; 
