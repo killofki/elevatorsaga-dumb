@@ -218,21 +218,24 @@
 						} 
 					} 
 				if( ! sameDirection ) { 
-					distance = 
-						  Math .abs( elevator .currentFloor() - elevator .destinationQueue .slice( -1 )[ 0 ] ) 
-						+ Math .abs( floor .level - elevator .destinationQueue .slice( -1 )[ 0 ] ) 
+					distance = [ 
+							  elevator .currentFloor() - elevator .destinationQueue .slice( -1 )[ 0 ] 
+							, floor .level - elevator .destinationQueue .slice( -1 )[ 0 ] 
+							] 
+						.map( Math .abs ) .reduce( ( a, b ) => a + b ) 
 						; 
 					} 
 				else { 
-					distance = 
-						  Math .abs( elevator .destinationQueue .slice( -1 )[ 0 ] - elevator .currentFloor() ) 
-						+ floors .length 
-						+ floor .level 
-						;
+					distance = [ 
+							  Math .abs( elevator .destinationQueue .slice( -1 )[ 0 ] - elevator .currentFloor() ) 
+							, floors .length 
+							, floor .level 
+							] 
+						.reduce( ( a, b ) => a + b ) 
+						; 
 					} 
 				if ( distance < bestDistance ) { 
-					bestElevatorByDistance = i; 
-					bestDistance = distance; 
+					[ bestElevatorByDistance, bestDistance ] = [ i, distance ]; 
 					} 
 				} 
 			[ [ bestElevator, 'on the road' ], [ bestElevatorByDistance, 'best selection by distance' ] ] 
