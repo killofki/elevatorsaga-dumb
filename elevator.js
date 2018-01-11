@@ -255,7 +255,7 @@
 			floor .on( "down_button_pressed", floor => findBestElevator( floor, 'down' ) ); 
 			} ); 
 		} // -- .init 
-	, update : ( dt, elevators, floors ) => {
-		// We normally don't need to do anything here
-		}
+	, update : ( dt, elevators, floors ) => { 
+		// We normally don't need to do anything here 
+		} // -- .update 
 	} ) 
