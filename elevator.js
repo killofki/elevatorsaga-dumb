@@ -174,7 +174,7 @@
 							elevator .destinationQueue .unshift( floorNum ); 
 							} 
 						else { 
-							findBestElevator( floorNum, 'up' ); 
+							findBestElevator( floorNum, d ); 
 							elevator[ f ][ floorNum ] = false; 
 							} 
 						return true; 
