@@ -239,25 +239,19 @@
 						} 
 					} 
 				} 
-			if ( bestElevator != -1 ) { 
-				elevators 
-					[ bestElevator ] 
-					[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
-					[ floor .level ] = true 
-					; 
-				elevators[ bestElevator ] .move(); 
-				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (on the road/${ direction })` ); 
-				return; 
-				} 
-			else if ( bestElevatorByDistance != -1 ) { 
-				elevators 
-					[ bestElevatorByDistance ] 
-					[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
-					[ floor .level ] = true 
-					; 
-				elevators[ bestElevatorByDistance ] .move(); 
-				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (best selection by distance/${ direction })` ); 
-				} 
+			[ [ bestElevator, 'on the road' ], [ bestElevatorByDistance, 'best selection by distance' ] ] 
+			.some( ( [ v, t ] ) => { 
+				if ( v != -1 ) { 
+					elevators 
+						[ v ] 
+						[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
+						[ floor .level ] = true 
+						; 
+					elevators[ v ] .move(); 
+					console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (${ t }/${ direction })` ); 
+					return true; 
+					} 
+				} ); 
 			}; 
 		
 		_ .each( floors, floor => { 
