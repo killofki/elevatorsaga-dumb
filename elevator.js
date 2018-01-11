@@ -177,7 +177,6 @@
 							findBestElevator( floorNum, 'up' ); 
 							elevator[ f ][ floorNum ] = false; 
 							} 
-						
 						return true; 
 						}
 					} ) 
