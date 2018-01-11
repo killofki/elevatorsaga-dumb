@@ -112,9 +112,8 @@
 					  toDown = [ upQueue, downQueue ] 
 						.map( a => [ a[ 0 ] .length, a[ 1 ] .length ] ) 
 						.reduce( ( [ [ a0, a1 ], [ b0, b1 ] ] ) => a0 + b0 > a1 + b1 ) 
-					, toFloor = toDown ? minFloor : maxFloor 
 					; 
-				goElevator( elevator, toDown, ! toDown, toFloor ); 
+				goElevator( elevator, toDown, ! toDown, toDown ? minFloor : maxFloor  ); 
 				} ); // -- .on( 'idle' ) 
 			
 			elevator .on( "stopped_at_floor", q => { 
