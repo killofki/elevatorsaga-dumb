@@ -244,6 +244,7 @@
 						[ floor .level ] = true 
 						; 
 					elevators[ v ] .move(); 
+					// elevator from where..? 
 					console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (${ t }/${ direction })` ); 
 					return true; 
 					} 
