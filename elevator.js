@@ -166,9 +166,9 @@
 				[ [ 'up', 'floorsToUp' ], [ 'down', 'floorsToDown' ] ] 
 				.some( ( [ d, f ] ) => { 
 					if ( 
-						   direction === d 
-						&& elevator[ f ][ floorNum ] 
-						) { 
+							   direction === d 
+							&& elevator[ f ][ floorNum ] 
+							) { 
 						if ( elevator .loadFactor() < 0.5 ) { 
 							console .log( `EV${ elevator .index }: Stop at ${ floorNum } (waiting passenger)` ); 
 							elevator .destinationQueue .unshift( floorNum ); 
