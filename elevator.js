@@ -191,10 +191,7 @@
 				if ( ! ( v != -1 ) ) 
 					{ return; } 
 				
-				elevators[ v ] 
-					[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
-					[ floor .level ] = true 
-					; 
+				elevators[ v ][ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ][ floor .level ] = true; 
 				elevators[ v ] .move(); 
 				// elevator from where..? 
 				console .log( `EV${ elevator .index }: will go to floor ${ floor .level } (${ t }/${ direction })` ); 
@@ -202,12 +199,10 @@
 				} ); 
 			}; // -- findBestElevator 
 		
-		_ .each( floors, floor => { 
+		_ .each( floors, floor => 
 			[ [ 'up_button_pressed', 'up' ], [ 'down_button_pressed', 'down' ] ] 
-			.forEach( ( [ f, e ] ) => { 
-				floor .on( f, floor => findBestElevator( floor, e ) ); 
-				} ); 
-			} ); // -- _ .each( floors ) 
+			.forEach( ( [ f, e ] ) => floor .on( f, floor => findBestElevator( floor, e ) ) ); 
+			); // -- _ .each( floors ) 
 		} // -- .init 
 	, update : ( dt, elevators, floors ) => { 
 		// We normally don't need to do anything here 
