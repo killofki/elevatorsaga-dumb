@@ -17,10 +17,7 @@
 				} ); 
 			
 			elevator .move = q => { 
-				var 
-					  minFloor = floors .length + 1 
-					, maxFloor = -1 
-					; 
+				var [ minFloor, maxFloor ] = [ floors .length + 1, -1 ]; 
 				for ( i = floors .length; i--; ) { 
 					if ( [ 'floorsToStop', 'floorsToUp', 'floorsToDown' ] .some( f => elevator[ f ][ i ] ) ) { 
 						maxFloor = maxFloor < i ? i : maxFloor; 
