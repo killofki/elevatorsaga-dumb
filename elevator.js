@@ -180,7 +180,8 @@
 						return true; 
 						}
 					} ) 
-				|| [ 'floorsToStop' ] .some( f => { 
+				|| [ 'floorsToStop' ] 
+				.some( f => { 
 					if ( elevator[ f ][ floorNum ] ) { 
 						console .log( `EV${ elevator .index }: Stop at ${ floorNum } (button pressed)` ); 
 						elevator .destinationQueue .unshift( floorNum ); 
