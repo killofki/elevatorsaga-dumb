@@ -131,18 +131,12 @@
 				.some( ( [ g, u, d, F ] ) => { 
 					if ( ! elevator[ g ]() ) 
 						{ return; }
-					F( i => { 
-						if( [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) ) { 
-							needToMoveMore = true; 
-							} 
-						} ); 
-					if( ! needToMoveMore ) { 
-						goElevator( elevator, u, d ); 
-						} 
+					F( i => [ 'floorsToUp', 'floorsToDown', 'floorsToStop' ] .some( f => elevator[ f ][ i ] ) && ( needToMoveMore = true ) ); 
+					needToMoveMore || goElevator( elevator, u, d ); 
 					return true; 
 					} ); 
 				[ [ 'goingUpIndicator', 'floorsToUp' ], [ 'goingDownIndicator', 'floorsToDown' ] ] 
-				.some( ( [ g, f ] ) => elevator[ g ]() && ( ( elevator[ f ][ floorNum ] = false ), true ) )
+				.some( ( [ g, f ] ) => elevator[ g ]() && ( ( elevator[ f ][ floorNum ] = false ), true ) ) 
 					; 
 				elevator .floorsToStop[ floorNum ] = false; 
 				} ); // -- .on( 'stopped_at_floor' ) 
@@ -150,10 +144,7 @@
 			elevator .on( "passing_floor", ( floorNum, direction ) => { 
 				[ [ 'up', 'floorsToUp' ], [ 'down', 'floorsToDown' ] ] 
 				.some( ( [ d, f ] ) => { 
-					if ( ! (
-							   direction === d 
-							&& elevator[ f ][ floorNum ] 
-							) ) 
+					if ( ! ( ( direction === d ) && elevator[ f ][ floorNum ]  ) ) 
 						{ return; } 
 					
 					if ( elevator .loadFactor() < 0.5 ) { 
