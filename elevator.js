@@ -202,10 +202,10 @@
 				; 
 			for ( i = elevators .length; i--; ) { 
 				elevator = elevators[ i ]; 
-				sameDirection = 
-					   ( direction == 'up' && elevator .goingUpIndicator() ) 
-					|| ( direction == 'down' && elevator .goingDownIndicator() ) 
-					; 
+				sameDirection = 0; // for or operator 
+				[ [ 'up', 'goingUpIndicator' ], [ 'down', 'goingDownIndicator' ] ] .some( 
+					( [ d, f ] ) => sameDirection = sameDirection || direction == d && elevator[ f ]() 
+					) ; 
 				neededDirection = ( elevator .currentFloor() < floor .level ? 'up' : 'down' ) == direction; 
 				if ( 
 						   neededDirection 
@@ -238,8 +238,7 @@
 			[ [ bestElevator, 'on the road' ], [ bestElevatorByDistance, 'best selection by distance' ] ] 
 			.some( ( [ v, t ] ) => { 
 				if ( v != -1 ) { 
-					elevators 
-						[ v ] 
+					elevators[ v ] 
 						[ direction === 'up' ? 'floorsToUp' : 'floorsToDown' ] 
 						[ floor .level ] = true 
 						; 
