@@ -91,12 +91,8 @@
 						} 
 					} 
 				for ( i = elevator .currentFloor(); i < floors .length; i++ ) { 
-					[ 
-						  [ 'Down', downQueue ]
-						, [ 'Up', upQueue ] 
-						] 
-					.forEach( ( [ f, q ] ) => 
-						elevator[ `floorsTo${ f }` ][ i ] ? q[ 1 ] .push( i ) : 0 
+					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] .forEach( 
+						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 1 ] .push( i ) : 0 
 						); 
 					if ( 
 								[ 'Down', 'Up' ] .some( v => elevator[ `floorsTo${ v }` ][ i ] ) 
@@ -111,10 +107,10 @@
 						.reduce( ( [ [ a0, a1 ], [ b0, b1 ] ] ) => a0 + b0 > a1 + b1 ) 
 					, toFloor = toDown ? minFloor : maxFloor 
 					; 
-				elevator .goingUpIndicator( toDown ); 
-				elevator .goingDownIndicator( ! toDown ); 
-				elevator .goToFloor( toFloor ); 
-				} ); 
+				[ [ 'goingUpIndicator', toDown ], [ 'goingDownIndicator', ! toDown ], [ 'goToFloor', toFloor ] ] .forEach( 
+					( [ f, v ] ) => elevator[ f ]( v ) 
+					); 
+				} ); // -- .on( 'idle', ... ) 
 			
 			elevator .on( "stopped_at_floor", q => { 
 				var 
