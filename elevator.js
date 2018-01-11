@@ -195,18 +195,20 @@
 						bestCapacity = elevator .maxPassengerCount(); 
 						} 
 					} 
-				distance = ( ! sameDirection ) 
-					? [ 
-							  elevator .currentFloor() - elevator .destinationQueue .slice( -1 )[ 0 ] 
-							, floor .level - elevator .destinationQueue .slice( -1 )[ 0 ] 
-							] 
-						.map( Math .abs ) .reduce( ( a, b ) => a + b ) 
-					: [ 
+				distance = (
+						( ! sameDirection ) 
+						? [ 
+								  elevator .currentFloor() - elevator .destinationQueue .slice( -1 )[ 0 ] 
+								, floor .level - elevator .destinationQueue .slice( -1 )[ 0 ] 
+								] 
+							.map( Math .abs ) 
+						: [ 
 							  Math .abs( elevator .destinationQueue .slice( -1 )[ 0 ] - elevator .currentFloor() ) 
 							, floors .length 
 							, floor .level 
 							] 
-						.reduce( ( a, b ) => a + b ) 
+						)
+					.reduce( ( a, b ) => a + b ) 
 					; 
 				( distance < bestDistance ) && ( [ bestElevatorByDistance, bestDistance ] = [ i, distance ] ); 
 				} 
