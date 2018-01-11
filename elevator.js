@@ -180,6 +180,7 @@
 						return true; 
 						}
 					} ) 
+				// else.. 
 				|| [ 'floorsToStop' ] 
 				.some( f => { 
 					if ( elevator[ f ][ floorNum ] ) { 
