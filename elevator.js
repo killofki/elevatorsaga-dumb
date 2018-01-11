@@ -93,7 +93,7 @@
 						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
 						); 
 					if ( 
-								[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
+							   [ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
 							&& minFloor > i 
 							) { 
 						minFloor = i; 
