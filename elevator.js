@@ -68,11 +68,20 @@
 				elevator .move(); 
 				} ); 
 			
+			var 
+				goElevator = ( elevator, ingUpIndicator, ingDownIndicator, ToFloor ) => {
+					[ [ 'floorsToDown', ingUp ], [ 'floorsToUp', ingDown ] ] .forEach( 
+						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
+						); 
+					if ( toFloor !== undefined ) { 
+						elevator .goToFloor( ToFloor ); 
+						} 
+					} 
+				; 
+			
 			elevator .on( "idle", q => { 
 				console .log( `Elevator idle (${ elevator .maxPassengerCount() })` ); 
-				[ 'goingUpIndicator', 'goingDownIndicator' ] .forEach( 
-					f => elevator[ f ]( false ) 
-					); 
+				goElevator( elevator, false, false ); 
 				
 				var 
 					  upQueue = [ [], [] ] 
@@ -107,9 +116,7 @@
 						.reduce( ( [ [ a0, a1 ], [ b0, b1 ] ] ) => a0 + b0 > a1 + b1 ) 
 					, toFloor = toDown ? minFloor : maxFloor 
 					; 
-				[ [ 'goingUpIndicator', toDown ], [ 'goingDownIndicator', ! toDown ], [ 'goToFloor', toFloor ] ] .forEach( 
-					( [ f, v ] ) => elevator[ f ]( v ) 
-					); 
+				goElevator( elevator, toDown, ! toDown, toFloor ); 
 				} ); // -- .on( 'idle', ... ) 
 			
 			elevator .on( "stopped_at_floor", q => { 
@@ -118,12 +125,10 @@
 					, needToMoveMore = false 
 					; 
 				if ( floorNum == 0 ) { 
-					elevator .goingUpIndicator( true ); 
-					elevator .goingDownIndicator( false ); 
+					goElevator( elevator, true, false ); 
 					} 
 				else if( floorNum == floors .length - 1 ) { 
-					elevator .goingUpIndicator( false ); 
-					elevator .goingDownIndicator( true ); 
+					goElevator( elevator, false, true ); 
 					} 
 				else { 
 					if( elevator .goingUpIndicator() ) { 
@@ -133,9 +138,7 @@
 								} 
 							} 
 						if( ! needToMoveMore ) { 
-							[ [ 'goingUpIndicator', false ], [ 'goingDownIndicator', true ] ] .forEach( 
-								( [ f, v ] ) => elevator[ f ]( v ) 
-								); 
+							goElevator( elevator, false, true ); 
 							} 
 						} 
 					else if( elevator .goingDownIndicator() ) { 
@@ -145,9 +148,7 @@
 								} 
 							} 
 						if( ! needToMoveMore ) { 
-							[ [ 'goingUpIndicator', true ], [ 'goingDownIndicator', false ] ] .forEach( 
-								( [ f, v ] ) => elevator[ f ]( v ) 
-								); 
+							goElevator( elevator, true, false ); 
 							} 
 						} 
 					} 
