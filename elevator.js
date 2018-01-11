@@ -56,6 +56,7 @@
 					elevator .destinationQueue .pop(); 
 					console .log( `EV${ elevator .index }: Go to ${ f } (${ t })` ); 
 					elevator .destinationQueue .push( f ); 
+					return true; 
 					} ) 
 				// else 
 				|| console .log( elevator ) 
