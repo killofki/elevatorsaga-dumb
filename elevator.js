@@ -178,7 +178,7 @@
 							elevator[ f ][ floorNum ] = false; 
 							} 
 						return true; 
-						}
+						} 
 					} ) 
 				// else.. 
 				|| [ 'floorsToStop' ] 
