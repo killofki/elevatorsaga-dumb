@@ -86,28 +86,27 @@
 					, downQueue = [ [], [] ] 
 					, [ minFloor, maxFloor ] = [ floors .length + 1, -1 ] 
 					; 
-				for ( i = elevator .currentFloor(); i--; ) { 
-					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] .forEach( 
-						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 0 ] .push( i ) : 0 
-						); 
-					if ( 
-							   [ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
-							&& minFloor > i 
-							) { 
-						minFloor = i; 
+				[ 
+					  [ 
+						  F => { for ( i = elevator .currentFloor(); i--; ) { F( i ); } }
+						, 0
+						, i => minFloor > i ? minFloor = i : 0 
+						] 
+					, [ 
+						  F => { for ( i = elevator .currentFloor(); i < floors .length; i++ ) { F( i ); } }
+						, 1
+						, i => maxFloor < i ? maxFloor = i : 0 
+						] 
+					] 
+				.forEach( ( [ L, p, r ] ) => L( i => { 
+					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] 
+					.forEach( ( [ f, q ] ) => elevator[ f ][ i ] ? q[ p ] .push( i ) : 0 )
+						; 
+					if ( [ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) ) { 
+						r( i ); 
 						} 
-					} 
-				for ( i = elevator .currentFloor(); i < floors .length; i++ ) { 
-					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] .forEach( 
-						( [ f, q ] ) => elevator[ f ][ i ] ? q[ 1 ] .push( i ) : 0 
-						); 
-					if ( 
-								[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
-							&& maxFloor < i 
-							) { 
-						maxFloor = i; 
-						} 
-					} 
+					} ) ); // -- [ [ F => {} ] ] .forEach() 
+				
 				var 
 					// weight if to down needs 
 					  toDown = [ upQueue, downQueue ] 
