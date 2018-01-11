@@ -222,10 +222,6 @@
 						  Math .abs( elevator .currentFloor() - elevator .destinationQueue .slice( -1 )[ 0 ] ) 
 						+ Math .abs( floor .level - elevator .destinationQueue .slice( -1 )[ 0 ] ) 
 						; 
-					if ( distance < bestDistance ) { 
-						bestElevatorByDistance = i; 
-						bestDistance = distance; 
-						} 
 					} 
 				else { 
 					distance = 
@@ -233,10 +229,10 @@
 						+ floors .length 
 						+ floor .level 
 						;
-					if ( distance < bestDistance ) { 
-						bestElevatorByDistance = i; 
-						bestDistance = distance; 
-						} 
+					} 
+				if ( distance < bestDistance ) { 
+					bestElevatorByDistance = i; 
+					bestDistance = distance; 
 					} 
 				} 
 			[ [ bestElevator, 'on the road' ], [ bestElevatorByDistance, 'best selection by distance' ] ] 
