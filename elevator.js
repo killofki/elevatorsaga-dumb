@@ -88,19 +88,19 @@
 					; 
 				[ 
 					  [ 
-						  F => { for ( i = elevator .currentFloor(); i--; ) { F( i ); } }
-						, 0
+						  F => { for ( i = elevator .currentFloor(); i--; ) { F( i ); } } 
+						, 0 
 						, i => minFloor > i ? minFloor = i : 0 
 						] 
 					, [ 
-						  F => { for ( i = elevator .currentFloor(); i < floors .length; i++ ) { F( i ); } }
-						, 1
+						  F => { for ( i = elevator .currentFloor(); i < floors .length; i++ ) { F( i ); } } 
+						, 1 
 						, i => maxFloor < i ? maxFloor = i : 0 
 						] 
 					] 
 				.forEach( ( [ L, p, r ] ) => L( i => { 
 					[ [ 'floorsToDown', downQueue ], [ 'floorsToUp', upQueue ] ] 
-					.forEach( ( [ f, q ] ) => elevator[ f ][ i ] ? q[ p ] .push( i ) : 0 )
+					.forEach( ( [ f, q ] ) => elevator[ f ][ i ] ? q[ p ] .push( i ) : 0 ) 
 						; 
 					[ 'floorsToDown', 'floorsToUp' ] .some( f => elevator[ f ][ i ] ) 
 					&& r( i )
