@@ -71,21 +71,13 @@
 				console .log( `Elevator idle (${ elevator .maxPassengerCount() })` ); 
 				goElevator( elevator, false, false ); 
 				
-				var 
-					  upQueue = [ [], [] ] 
-					, downQueue = [ [], [] ] 
-					, [ minFloor, maxFloor ] = [ floors .length + 1, -1 ] 
-					; 
+				var upQueue = [ [], [] ], downQueue = [ [], [] ], [ minFloor, maxFloor ] = [ floors .length + 1, -1 ]; 
 				[ 
-					  [ 
-						  F => { for ( i = elevator .currentFloor(); i--; ) { F( i ); } } 
-						, 0 
-						, i => minFloor > i ? minFloor = i : 0 
+					  [ F => { for ( i = elevator .currentFloor(); i--; ) { F( i ); } } 
+						, 0, i => minFloor > i ? minFloor = i : 0 
 						] 
-					, [ 
-						  F => { for ( i = elevator .currentFloor(); i < floors .length; i++ ) { F( i ); } } 
-						, 1 
-						, i => maxFloor < i ? maxFloor = i : 0 
+					, [ F => { for ( i = elevator .currentFloor(); i < floors .length; i++ ) { F( i ); } } 
+						, 1, i => maxFloor < i ? maxFloor = i : 0 
 						] 
 					] 
 				.forEach( ( [ L, p, r ] ) => L( i => { 
